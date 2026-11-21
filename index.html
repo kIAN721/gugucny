@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Happy Chinese New Year 2027</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <!-- Ambient Background Layer -->
+  <div class="ambient-bg" aria-hidden="true">
+    <div id="petalContainer" class="petal-container"></div>
+
+    <!-- Top Festive Lanterns -->
+    <div class="lantern lantern-left">
+      <div class="lantern-string"></div>
+      <div class="lantern-body"><span>福</span></div>
+      <div class="lantern-tassel"></div>
+    </div>
+    <div class="lantern lantern-right">
+      <div class="lantern-string"></div>
+      <div class="lantern-body"><span>春</span></div>
+      <div class="lantern-tassel"></div>
+    </div>
+
+    <!-- Running Goat Horizon (Tappable for Hop Boost) -->
+    <div class="horizon-scene">
+      <div class="sparkle-layer" id="sparkleLayer"></div>
+      <div class="hill hill-back"></div>
+      <div class="hill hill-front"></div>
+      <div class="goat-runner" id="goatRunner" role="button" tabindex="0" aria-label="Tap the goat">
+        <!-- Custom Animated SVG Goat -->
+        <svg class="goat-svg" viewBox="0 0 140 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Back Legs -->
+          <g class="goat-leg leg-back-1">
+            <rect x="44" y="68" width="7" height="24" rx="3.5" fill="#E6D5C3" />
+            <rect x="44" y="88" width="7" height="5" rx="2" fill="#8C6239" />
+          </g>
+          <g class="goat-leg leg-back-2">
+            <rect x="55" y="68" width="7" height="24" rx="3.5" fill="#FFF8F0" />
+            <rect x="55" y="88" width="7" height="5" rx="2" fill="#8C6239" />
+          </g>
+          <!-- Tail -->
+          <path d="M36 53 C28 48, 27 40, 34 42 C39 44, 41 50, 39 55 Z" fill="#FFF8F0" />
+          <!-- Fluffy Body -->
+          <ellipse cx="64" cy="58" rx="28" ry="18" fill="#FFF8F0" />
+          <circle cx="48" cy="52" r="10" fill="#FFF8F0" />
+          <circle cx="62" cy="48" r="11" fill="#FFF8F0" />
+          <circle cx="77" cy="51" r="10" fill="#FFF8F0" />
+          <!-- Front Legs -->
+          <g class="goat-leg leg-front-1">
+            <rect x="74" y="68" width="7" height="24" rx="3.5" fill="#E6D5C3" />
+            <rect x="74" y="88" width="7" height="5" rx="2" fill="#8C6239" />
+          </g>
+          <g class="goat-leg leg-front-2">
+            <rect x="84" y="68" width="7" height="24" rx="3.5" fill="#FFF8F0" />
+            <rect x="84" y="88" width="7" height="5" rx="2" fill="#8C6239" />
+          </g>
+          <!-- Festive Gold Scarf -->
+          <path d="M82 47 Q92 54 88 64" stroke="#D9383A" stroke-width="6" stroke-linecap="round" />
+          <path d="M84 56 L72 63" stroke="#F4C95D" stroke-width="4" stroke-linecap="round" />
+          <!-- Head & Ears -->
+          <g class="goat-head">
+            <path d="M93 32 Q88 18 79 22" stroke="#D4A359" stroke-width="4.5" stroke-linecap="round" />
+            <path d="M99 32 Q98 17 89 19" stroke="#E5B96F" stroke-width="4.5" stroke-linecap="round" />
+            <ellipse cx="89" cy="38" rx="7" ry="3.5" transform="rotate(-25 89 38)" fill="#F3D8C8" />
+            <ellipse cx="101" cy="42" rx="14" ry="11" fill="#FFF8F0" />
+            <circle cx="103" cy="45" r="3" fill="#FF9E9E" opacity="0.7" />
+            <circle cx="104" cy="39" r="2.2" fill="#3D2B1F" />
+            <circle cx="104.8" cy="38.2" r="0.8" fill="#FFFFFF" />
+            <circle cx="114" cy="43" r="2" fill="#E5989B" />
+            <path d="M107 51 Q109 58 104 59 Q102 55 103 51 Z" fill="#F5E6D3" />
+          </g>
+        </svg>
+        <span class="goat-speech" id="goatSpeech">baa-lessed 2027 ✨</span>
+        <div class="dust-trail">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Non-Scrollable Interactive Stage -->
+  <main class="stage">
+    <!-- STAGE 1: 3D Goat Ang Pao Envelope -->
+    <section class="envelope-stage active" id="envelopeStage">
+      <p class="stage-eyebrow">2027 • Year of the Goat</p>
+      <div class="envelope-wrapper" id="envelopeWrapper" role="button" tabindex="0" aria-label="Open Year of the Goat Envelope">
+        <div class="envelope-3d" id="envelope3d">
+          <!-- Back & Inner Gold Lining -->
+          <div class="env-back"></div>
+          <div class="env-card-peek">
+            <span>2027</span>
+          </div>
+
+          <!-- Top Flap -->
+          <div class="env-flap">
+            <div class="flap-gold-trim"></div>
+          </div>
+
+          <!-- Front Pocket with Custom Goat Emblem -->
+          <div class="env-front">
+            <div class="env-border-frame">
+              <div class="goat-crest">
+                <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="40" cy="40" r="36" fill="#FFF6E5" stroke="#F4C95D" stroke-width="2.5" />
+                  <!-- Minimalist Cute Golden Goat Emblem -->
+                  <path d="M31 27 C27 17, 20 19, 23 25" stroke="#C88A2E" stroke-width="3" stroke-linecap="round" />
+                  <path d="M49 27 C53 17, 60 19, 57 25" stroke="#C88A2E" stroke-width="3" stroke-linecap="round" />
+                  <ellipse cx="26" cy="33" rx="5.5" ry="2.8" transform="rotate(-20 26 33)" fill="#E8B878" />
+                  <ellipse cx="54" cy="33" rx="5.5" ry="2.8" transform="rotate(20 54 33)" fill="#E8B878" />
+                  <path d="M27 36 C27 26, 53 26, 53 36 C53 48, 46 56, 40 56 C34 56, 27 48, 27 36 Z" fill="#FFFFFF" stroke="#D99B38" stroke-width="2" />
+                  <circle cx="34" cy="39" r="2.2" fill="#4A2C18" />
+                  <circle cx="46" cy="39" r="2.2" fill="#4A2C18" />
+                  <circle cx="31" cy="43" r="2.5" fill="#FF9E9E" opacity="0.65" />
+                  <circle cx="49" cy="43" r="2.5" fill="#FF9E9E" opacity="0.65" />
+                  <path d="M37 45 Q40 48 43 45" stroke="#C88A2E" stroke-width="2" stroke-linecap="round" />
+                  <path d="M38 56 Q40 62 42 56" stroke="#D99B38" stroke-width="2.2" stroke-linecap="round" />
+                </svg>
+              </div>
+              <span class="env-label-cn">喜迎羊年</span>
+              <span class="env-label-en">A Special 2027 Keepsake</span>
+            </div>
+          </div>
+
+          <!-- Center Gold Seal -->
+          <div class="env-seal" id="envSeal">
+            <span>開</span>
+          </div>
+        </div>
+      </div>
+      <p class="tap-hint" id="tapHint">Tap the goat envelope to open</p>
+    </section>
+
+    <!-- STAGE 2: 3D Swipe & Flip Keepsake Deck -->
+    <section class="deck-stage" id="deckStage" aria-hidden="true">
+      <button type="button" class="replay-btn" id="replayEnvelopeBtn">↺ Envelope</button>
+
+      <div class="deck-viewport" id="deckViewport">
+        <!-- CARD 1: Shared Birth-Year Keepsake (Flippable 3D Card) -->
+        <article class="deck-card is-active" data-index="0">
+          <div class="card-3d-inner" id="birthYearCard">
+            <!-- Front Face -->
+            <div class="card-face card-front">
+              <div class="card-glare"></div>
+              <span class="badge-pill">2027 • GOAT ERA</span>
+              <div class="zodiac-medallion">
+                <span class="zodiac-char">羊</span>
+              </div>
+              <h1 class="card-title">Certified Goat Year</h1>
+              <p class="card-subtitle">Same Zodiac • Built Different</p>
+              <p class="card-body">
+                2027 is officially the <strong>Year of the Goat</strong>—aka the exact birth year we both share. Lowkey iconic timing.
+              </p>
+              <button type="button" class="flip-btn" id="flipBirthCardBtn">
+                Flip for the lore ↻
+              </button>
+            </div>
+
+            <!-- Back Face -->
+            <div class="card-face card-back">
+              <div class="card-glare"></div>
+              <span class="badge-pill gold">Two Goats • 2027</span>
+              <h2 class="card-title-sm">Main Character Energy</h2>
+              <p class="card-body">
+                Sharing the same zodiac sign makes stepping into 2027 hit a little different. Manifesting soft days, zero stress, and big wins for our birth year.
+              </p>
+              <button type="button" class="flip-btn secondary" id="unflipBirthCardBtn">
+                ↺ Flip back
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <!-- CARD 2: Interactive Lucky Vibe / Fortune Picker -->
+        <article class="deck-card is-next" data-index="1">
+          <div class="card-3d-inner">
+            <div class="card-face card-front">
+              <div class="card-glare"></div>
+              <span class="badge-pill">2027 Vibe Check</span>
+              <h2 class="card-title-sm">Tap Your Goat Charm</h2>
+              <p class="card-subtitle">Pick what 2027 is bringing you</p>
+
+              <div class="charm-grid" id="charmGrid">
+                <button type="button" class="charm-chip active" data-charm="Soft Life & Peace 🍵" data-note="Zero drama, cozy mornings, and smooth days all year long.">
+                  🍵 Soft Life
+                </button>
+                <button type="button" class="charm-chip" data-charm="Big Bag & Luck 🧧" data-note="Unexpected blessings, good wins, and lucky breaks everywhere.">
+                  🧧 Big Luck
+                </button>
+                <button type="button" class="charm-chip" data-charm="Glow Up Era ✨" data-note="Healthy, happy, thriving, and unstoppable in our Year of the Goat.">
+                  ✨ Glow Up
+                </button>
+                <button type="button" class="charm-chip" data-charm="Core Memories 📸" data-note="Spontaneous laughs, good food, and moments worth keeping forever.">
+                  📸 Memories
+                </button>
+              </div>
+
+              <div class="charm-readout" id="charmReadout">
+                Zero drama, cozy mornings, and smooth days all year long.
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- CARD 3: Personal Lunar New Year Wish -->
+        <article class="deck-card is-next" data-index="2">
+          <div class="card-3d-inner">
+            <div class="card-face card-front">
+              <div class="card-glare"></div>
+              <span class="badge-pill">Happy CNY 2027</span>
+              <h2 class="card-title">Wishing You Everything Good</h2>
+              <p class="card-body message-text">
+                Happy Chinese New Year! Hope 2027 treats you gently, keeps you smiling, and brings everything you’ve been hoping for. Always rooting for you in our Year of the Goat.
+              </p>
+              <div class="card-signature">
+                <span>— Cheers to 2027 🐐✨</span>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <!-- Deck Navigation Controls -->
+      <div class="deck-controls">
+        <button type="button" class="nav-arrow" id="prevCardBtn" aria-label="Previous card" disabled>‹</button>
+        <div class="deck-dots" id="deckDots">
+          <button type="button" class="dot active" data-slide="0" aria-label="Card 1"></button>
+          <button type="button" class="dot" data-slide="1" aria-label="Card 2"></button>
+          <button type="button" class="dot" data-slide="2" aria-label="Card 3"></button>
+        </div>
+        <button type="button" class="nav-arrow" id="nextCardBtn" aria-label="Next card">›</button>
+      </div>
+      <p class="swipe-caption">Swipe cards or tap the running goat below</p>
+    </section>
+  </main>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

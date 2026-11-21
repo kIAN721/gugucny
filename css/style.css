@@ -1,0 +1,915 @@
+/* ==========================================================================
+   1. Variables & Reset (Locked 100dvh Non-Scrollable Stage)
+   ========================================================================== */
+:root {
+  --bg-top: #fff1f2;
+  --bg-mid: #ffe4e6;
+  --bg-bottom: #fdf2e9;
+  --crimson: #c82832;
+  --crimson-deep: #991b24;
+  --coral-red: #e04852;
+  --gold: #f4c95d;
+  --gold-deep: #c9932c;
+  --cream: #fffaf2;
+  --text-dark: #4a2528;
+  --text-muted: #7c4d51;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100dvh;
+  overflow: hidden;
+  font-family: "Quicksand", sans-serif;
+  color: var(--text-dark);
+  background: linear-gradient(170deg, var(--bg-top) 0%, var(--bg-mid) 55%, var(--bg-bottom) 100%);
+  user-select: none;
+}
+
+/* ==========================================================================
+   2. Ambient Background, Petals, Lanterns & Running Goat
+   ========================================================================== */
+.ambient-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.petal-container {
+  position: absolute;
+  inset: 0;
+}
+
+.petal {
+  position: absolute;
+  top: -20px;
+  width: 12px;
+  height: 12px;
+  background: radial-gradient(circle at 30% 30%, #fff0f3, #ff9ebb);
+  border-radius: 70% 15% 70% 15%;
+  opacity: 0.75;
+  animation: petalFall linear infinite;
+}
+
+@keyframes petalFall {
+  0% {
+    transform: translate3d(0, -10px, 0) rotate(0deg);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.8;
+  }
+  85% {
+    opacity: 0.75;
+  }
+  100% {
+    transform: translate3d(60px, 105dvh, 0) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* Swaying Lanterns */
+.lantern {
+  position: absolute;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform-origin: top center;
+  animation: lanternSway 4s ease-in-out infinite;
+}
+
+.lantern-left {
+  left: 20px;
+}
+
+.lantern-right {
+  right: 20px;
+  animation-delay: -2s;
+}
+
+.lantern-string {
+  width: 2px;
+  height: 22px;
+  background: var(--gold-deep);
+}
+
+.lantern-body {
+  width: 42px;
+  height: 36px;
+  border-radius: 18px;
+  background: radial-gradient(circle at 35% 35%, #ff6b6b, var(--crimson));
+  border: 2px solid var(--gold);
+  display: grid;
+  place-items: center;
+  box-shadow: 0 6px 16px rgba(200, 40, 50, 0.25);
+}
+
+.lantern-body span {
+  font-family: "Cormorant Garamond", serif;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--gold);
+}
+
+.lantern-tassel {
+  width: 3px;
+  height: 18px;
+  background: linear-gradient(to bottom, var(--gold), var(--crimson));
+  border-radius: 2px;
+}
+
+@keyframes lanternSway {
+  0%, 100% {
+    transform: rotate(-4deg);
+  }
+  50% {
+    transform: rotate(4deg);
+  }
+}
+
+/* Horizon & Animated Running Goat */
+.horizon-scene {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 135px;
+}
+
+.hill {
+  position: absolute;
+  bottom: -25px;
+  width: 120%;
+  left: -10%;
+  border-radius: 50% 50% 0 0;
+}
+
+.hill-back {
+  height: 95px;
+  background: linear-gradient(180deg, #ffd6dc 0%, #ffc2cb 100%);
+  opacity: 0.75;
+}
+
+.hill-front {
+  height: 68px;
+  background: linear-gradient(180deg, #ffe5d9 0%, #fad2c3 100%);
+}
+
+.goat-runner {
+  position: absolute;
+  bottom: 24px;
+  left: -150px;
+  width: 112px;
+  height: 88px;
+  pointer-events: auto;
+  cursor: pointer;
+  z-index: 6;
+  animation: goatCrossScreen 12s linear infinite;
+}
+
+.goat-svg {
+  width: 100%;
+  height: 100%;
+  animation: goatGallopBounce 0.45s ease-in-out infinite alternate;
+  filter: drop-shadow(0 6px 8px rgba(130, 65, 70, 0.16));
+}
+
+.goat-runner.is-hopping .goat-svg {
+  animation: goatSuperHop 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.goat-speech {
+  position: absolute;
+  top: -22px;
+  left: 50%;
+  transform: translateX(-50%) scale(0.7);
+  background: rgba(255, 255, 255, 0.94);
+  color: var(--crimson);
+  font-size: 0.72rem;
+  font-weight: 700;
+  white-space: nowrap;
+  padding: 3px 9px;
+  border-radius: 999px;
+  border: 1px solid var(--gold);
+  box-shadow: 0 4px 12px rgba(200, 40, 50, 0.16);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.goat-runner.is-hopping .goat-speech {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+}
+
+.goat-leg {
+  transform-origin: 50% 68px;
+}
+
+.leg-front-1,
+.leg-back-2 {
+  animation: legSwingA 0.45s ease-in-out infinite alternate;
+}
+
+.leg-front-2,
+.leg-back-1 {
+  animation: legSwingB 0.45s ease-in-out infinite alternate;
+}
+
+.goat-head {
+  transform-origin: 95px 45px;
+  animation: headBob 0.45s ease-in-out infinite alternate;
+}
+
+.dust-trail {
+  position: absolute;
+  bottom: 8px;
+  left: 16px;
+  display: flex;
+  gap: 6px;
+}
+
+.dust-trail span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.75);
+  animation: dustPuff 0.6s ease-out infinite;
+}
+
+.dust-trail span:nth-child(2) {
+  animation-delay: 0.2s;
+  width: 5px;
+  height: 5px;
+}
+
+.dust-trail span:nth-child(3) {
+  animation-delay: 0.4s;
+  width: 4px;
+  height: 4px;
+}
+
+@keyframes goatCrossScreen {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(100vw + 280px));
+  }
+}
+
+@keyframes goatGallopBounce {
+  0% {
+    transform: translateY(0) rotate(-2deg);
+  }
+  100% {
+    transform: translateY(-7px) rotate(2deg);
+  }
+}
+
+@keyframes goatSuperHop {
+  0% {
+    transform: translateY(0) rotate(0deg) scale(1);
+  }
+  45% {
+    transform: translateY(-34px) rotate(-10deg) scale(1.08);
+  }
+  100% {
+    transform: translateY(0) rotate(0deg) scale(1);
+  }
+}
+
+@keyframes legSwingA {
+  0% {
+    transform: rotate(-22deg);
+  }
+  100% {
+    transform: rotate(24deg);
+  }
+}
+
+@keyframes legSwingB {
+  0% {
+    transform: rotate(24deg);
+  }
+  100% {
+    transform: rotate(-22deg);
+  }
+}
+
+@keyframes headBob {
+  0% {
+    transform: rotate(-3deg);
+  }
+  100% {
+    transform: rotate(4deg);
+  }
+}
+
+@keyframes dustPuff {
+  0% {
+    transform: scale(0.5) translate(0, 0);
+    opacity: 0.85;
+  }
+  100% {
+    transform: scale(1.6) translate(-16px, -6px);
+    opacity: 0;
+  }
+}
+
+/* Sparkle Burst Layer */
+.sparkle-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.burst-star {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fffbe6 10%, var(--gold) 70%, transparent 100%);
+  box-shadow: 0 0 10px var(--gold);
+  animation: burstFly 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes burstFly {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--tx), var(--ty)) scale(0.2);
+    opacity: 0;
+  }
+}
+
+/* ==========================================================================
+   3. Main Interactive Stage & 3D Goat Envelope
+   ========================================================================== */
+.stage {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+}
+
+.envelope-stage {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  transition: opacity 0.6s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.envelope-stage.is-hidden {
+  opacity: 0;
+  transform: translateY(45px) scale(0.88);
+  pointer-events: none;
+  position: absolute;
+}
+
+.stage-eyebrow {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--crimson);
+  background: rgba(255, 255, 255, 0.75);
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(244, 201, 93, 0.65);
+}
+
+.envelope-wrapper {
+  perspective: 1100px;
+  cursor: pointer;
+  outline: none;
+}
+
+.envelope-3d {
+  position: relative;
+  width: min(76vw, 275px);
+  height: min(106vw, 375px);
+  transform-style: preserve-3d;
+  transition: transform 0.25s ease-out;
+  animation: envelopeFloat 3.4s ease-in-out infinite;
+}
+
+.envelope-3d * {
+  pointer-events: none;
+}
+
+@keyframes envelopeFloat {
+  0%, 100% {
+    transform: translateY(0px) rotateY(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotateY(3deg);
+  }
+}
+
+.env-back {
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  background: linear-gradient(155deg, var(--crimson) 0%, var(--crimson-deep) 100%);
+  box-shadow: 0 22px 42px rgba(153, 27, 36, 0.32);
+}
+
+.env-card-peek {
+  position: absolute;
+  top: 18px;
+  left: 14px;
+  right: 14px;
+  height: 75%;
+  border-radius: 14px;
+  background: linear-gradient(180deg, #fffdf9, #fdf1dc);
+  border: 1.5px solid var(--gold);
+  display: flex;
+  justify-content: center;
+  padding-top: 16px;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--crimson);
+  transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.env-front {
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  background: linear-gradient(165deg, var(--coral-red) 0%, var(--crimson) 55%, var(--crimson-deep) 100%);
+  clip-path: polygon(0 24%, 50% 38%, 100% 24%, 100% 100%, 0 100%);
+  padding: 14px;
+  display: flex;
+  align-items: flex-end;
+  box-shadow: inset 0 2px 10px rgba(255, 225, 170, 0.25);
+}
+
+.env-border-frame {
+  width: 100%;
+  height: 70%;
+  border: 1.5px solid rgba(244, 201, 93, 0.7);
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 12px 12px;
+}
+
+.goat-crest {
+  width: 82px;
+  height: 82px;
+  filter: drop-shadow(0 4px 10px rgba(90, 15, 20, 0.28));
+}
+
+.env-label-cn {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--gold);
+}
+
+.env-label-en {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: rgba(255, 245, 225, 0.9);
+  letter-spacing: 0.04em;
+}
+
+/* 3D Envelope Top Flap */
+.env-flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 44%;
+  background: linear-gradient(180deg, #b8202a 0%, #df424c 100%);
+  border-radius: 20px 20px 0 0;
+  clip-path: polygon(0 0, 100% 0, 50% 96%);
+  transform-origin: top center;
+  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 3;
+}
+
+.flap-gold-trim {
+  position: absolute;
+  inset: 0;
+  border-top: 3px solid var(--gold);
+}
+
+.env-seal {
+  position: absolute;
+  top: 34%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #ffe699, var(--gold) 65%, var(--gold-deep) 100%);
+  border: 2px solid #fff8dc;
+  display: grid;
+  place-items: center;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--crimson-deep);
+  box-shadow: 0 6px 16px rgba(80, 10, 15, 0.35);
+  z-index: 4;
+  transition: transform 0.45s ease, opacity 0.4s ease;
+}
+
+/* Opened Envelope Animation State */
+.envelope-3d.is-open {
+  animation: none;
+}
+
+.envelope-3d.is-open .env-seal {
+  transform: translate(-50%, -50%) scale(0.3) rotate(90deg);
+  opacity: 0;
+}
+
+.envelope-3d.is-open .env-flap {
+  transform: rotateX(180deg);
+  z-index: 1;
+}
+
+.envelope-3d.is-open .env-card-peek {
+  transform: translateY(-78px);
+}
+
+.tap-hint {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  animation: pulseHint 2s ease-in-out infinite;
+}
+
+@keyframes pulseHint {
+  0%, 100% {
+    opacity: 0.65;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* ==========================================================================
+   4. Stage 2: 3D Swipe & Flip Keepsake Deck
+   ========================================================================== */
+.deck-stage {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 20px 20px 68px;
+  opacity: 0;
+  transform: scale(0.92) translateY(20px);
+  pointer-events: none;
+  transition: opacity 0.65s ease 0.15s, transform 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.15s;
+}
+
+.deck-stage.is-visible {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+  pointer-events: auto;
+}
+
+.replay-btn {
+  border: 1px solid rgba(200, 40, 50, 0.22);
+  background: rgba(255, 255, 255, 0.8);
+  color: var(--crimson);
+  font-family: "Quicksand", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.replay-btn:active {
+  transform: scale(0.94);
+}
+
+.deck-viewport {
+  position: relative;
+  width: min(88vw, 350px);
+  height: min(62dvh, 420px);
+  perspective: 1400px;
+}
+
+.deck-card {
+  position: absolute;
+  inset: 0;
+  perspective: 1400px;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease;
+}
+
+.deck-card.is-active {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) rotateY(0deg) scale(1);
+  z-index: 3;
+  pointer-events: auto;
+}
+
+.deck-card.is-next {
+  opacity: 0.45;
+  transform: translate3d(26px, 10px, -90px) rotateY(-12deg) scale(0.93);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.deck-card.is-prev {
+  opacity: 0.45;
+  transform: translate3d(-26px, 10px, -90px) rotateY(12deg) scale(0.93);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* 3D Flip Container Inside Card */
+.card-3d-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.75s cubic-bezier(0.34, 1.36, 0.64, 1);
+}
+
+.card-3d-inner.is-flipped {
+  transform: rotateY(180deg);
+}
+
+.card-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 24px;
+  background: linear-gradient(155deg, #fffefe 0%, #fff2f4 100%);
+  border: 1.5px solid rgba(255, 255, 255, 0.95);
+  box-shadow:
+    0 22px 45px rgba(165, 42, 58, 0.16),
+    inset 0 0 0 1.5px rgba(244, 201, 93, 0.55);
+  padding: 26px 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 13px;
+  overflow: hidden;
+}
+
+.card-front {
+  transform: rotateY(0deg) translateZ(1px);
+}
+
+.card-back {
+  transform: rotateY(180deg) translateZ(1px);
+  background: linear-gradient(165deg, #fff8eb 0%, #ffe9ea 100%);
+}
+
+.card-glare {
+  position: absolute;
+  inset: -40%;
+  background: radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.7), transparent 55%);
+  pointer-events: none;
+  opacity: 0.75;
+}
+
+.badge-pill {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--crimson);
+  background: #ffe4e6;
+  padding: 5px 12px;
+  border-radius: 999px;
+}
+
+.badge-pill.gold {
+  color: #7c5211;
+  background: #fde9b4;
+}
+
+.zodiac-medallion {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, var(--coral-red), var(--crimson));
+  border: 2.5px solid var(--gold);
+  display: grid;
+  place-items: center;
+  box-shadow: 0 8px 18px rgba(200, 40, 50, 0.22);
+}
+
+.zodiac-char {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--gold);
+}
+
+.card-title {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.85rem;
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--crimson-deep);
+}
+
+.card-title-sm {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--crimson-deep);
+}
+
+.card-subtitle {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--gold-deep);
+  margin-top: -8px;
+}
+
+.card-body {
+  font-size: 0.94rem;
+  line-height: 1.6;
+  color: var(--text-dark);
+}
+
+.message-text {
+  font-size: 0.96rem;
+  line-height: 1.68;
+}
+
+.card-signature {
+  margin-top: 6px;
+  font-family: "Cormorant Garamond", serif;
+  font-style: italic;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--crimson);
+}
+
+.flip-btn {
+  margin-top: 4px;
+  border: none;
+  border-radius: 999px;
+  padding: 9px 16px;
+  font-family: "Quicksand", sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #ffffff;
+  background: linear-gradient(135deg, var(--coral-red), var(--crimson));
+  box-shadow: 0 6px 14px rgba(200, 40, 50, 0.22);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.flip-btn.secondary {
+  background: #f5d896;
+  color: var(--text-dark);
+  box-shadow: none;
+}
+
+.flip-btn:active {
+  transform: scale(0.95);
+}
+
+/* ==========================================================================
+   5. Interactive Charm Chips & Deck Controls
+   ========================================================================== */
+.charm-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px;
+  width: 100%;
+  margin-top: 2px;
+}
+
+.charm-chip {
+  border: 1.5px solid rgba(200, 40, 50, 0.18);
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 14px;
+  padding: 10px 8px;
+  font-family: "Quicksand", sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.charm-chip.active {
+  background: linear-gradient(135deg, var(--coral-red), var(--crimson));
+  color: #ffffff;
+  border-color: var(--gold);
+  box-shadow: 0 6px 14px rgba(200, 40, 50, 0.22);
+}
+
+.charm-chip:active {
+  transform: scale(0.95);
+}
+
+.charm-readout {
+  width: 100%;
+  min-height: 64px;
+  padding: 11px 14px;
+  border-radius: 16px;
+  background: rgba(255, 248, 232, 0.9);
+  border: 1px dashed rgba(201, 147, 44, 0.55);
+  font-size: 0.88rem;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--text-dark);
+  display: grid;
+  place-items: center;
+}
+
+.deck-controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  z-index: 5;
+}
+
+.nav-arrow {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(200, 40, 50, 0.25);
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--crimson);
+  font-size: 1.35rem;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.nav-arrow:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.nav-arrow:not(:disabled):active {
+  transform: scale(0.92);
+}
+
+.deck-dots {
+  display: flex;
+  gap: 8px;
+}
+
+.dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  border: none;
+  background: rgba(200, 40, 50, 0.25);
+  cursor: pointer;
+  transition: width 0.3s ease, background 0.3s ease;
+}
+
+.dot.active {
+  width: 24px;
+  background: var(--crimson);
+}
+
+.swipe-caption {
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  opacity: 0.85;
+  margin-top: -6px;
+}
